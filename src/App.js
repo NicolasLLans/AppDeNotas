@@ -2,7 +2,6 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import FormNotas from './components/FormNotas';
 import { Note } from './components/Note';
-import axios from 'axios';
 import { getAllNotes } from './services/notes/getAllNotes';
 import { createNote } from './services/notes/createNote';
 
@@ -38,7 +37,8 @@ function App() {
       userId:1
     };
 
-    createNote(noteToAddState).then((newNote) => {
+    createNote(noteToAddState)
+    .then((newNote) => {
       setNotes((prevNotes) => prevNotes.concat(newNote));
     });   
 
