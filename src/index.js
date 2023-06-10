@@ -4,29 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const notes = [
-  {
-    id: 1,
-    content: "nota uno",
-    date: Date(),
-    important: false
-  },
-  {
-    id: 2,
-    content: "nota dos",
-    date: Date(),
-    important: true
-  },
-  {
-    id: 3,
-    content: "nota tres",
-    date: Date(),
-    important: false
-  }
-]
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <App notes={notes} />
+    <App />
 );
 
 // If you want to start measuring performance in your app, pass a function
