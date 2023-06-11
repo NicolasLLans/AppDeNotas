@@ -4,15 +4,18 @@ import FormNotas from './components/FormNotas';
 import { Note } from './components/Note';
 import { getAllNotes } from './services/notes/getAllNotes';
 import { createNote } from './services/notes/createNote';
-
-const mensaje = 'Hola Mundo desde variable'
-
+import noteService from './services/notes'
+import loginService from './services/login'
 
 function App() {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState(notes)
+  const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
-  const [loading, setloading] = useState(false)
+  const [errorMessage, seterrorMessage] = useState(null)
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     console.log('useEffect')
@@ -27,22 +30,24 @@ function App() {
     setNewNote(event.target.value);
   }
 
-  const handleSubmit = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
 
-    console.log('crear nota')
-    const noteToAddState = {
-      title: newNote,
-      body: newNote,
-      userId:1
-    };
-
-    createNote(noteToAddState)
-    .then((newNote) => {
-      setNotes((prevNotes) => prevNotes.concat(newNote));
-    });   
-
-    setNewNote('')
+    try{
+      const user = await loginService.login({
+        username,
+        password
+      })
+  
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    }catch(e){
+      seterrorMessage('wrong credentials')
+      setTimeout(() => {
+        seterrorMessage(null)
+      }, 5000)
+    }
   }
 
   const handlerShowAll = () => {
@@ -56,7 +61,12 @@ function App() {
     <>
       <div className="App" key={22}>
         <h1>Notes by NicoDev</h1>
-        {mensaje + ' evalucacion de jsx'}
+
+        <form onSubmit={handleLogin}>
+          <div>
+            <input></input>
+          </div>
+        </form>
         <button onClick={handlerShowAll}>{showAll ? 'Show only important' : 'Show all'}</button>
         {loading ? 'Cangando...': ''}
       </div>
