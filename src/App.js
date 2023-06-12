@@ -19,30 +19,28 @@ function App() {
 
   useEffect(() => {
     console.log('useEffect')
-    setloading(true)
     getAllNotes().then((notes) => {
       setNotes(notes)
-      setloading(false)
     });
   }, []);
 
-  const handleChange = (event) => {
+  const addNote = (event) => {
     setNewNote(event.target.value);
   }
 
   const handleLogin = async (event) => {
     event.preventDefault()
 
-    try{
+    try {
       const user = await loginService.login({
         username,
         password
       })
-  
+
       setUser(user)
       setUsername('')
       setPassword('')
-    }catch(e){
+    } catch (e) {
       seterrorMessage('wrong credentials')
       setTimeout(() => {
         seterrorMessage(null)
@@ -54,21 +52,45 @@ function App() {
     setShowAll(() => !showAll)
   };
 
-  // if (typeof notes === undefined || notes.length === 0) {
-  //   return "No tenemos notas que mostrar";
-  // }
   return (
     <>
       <div className="App" key={22}>
         <h1>Notes by NicoDev</h1>
+        {/* <Notification message={errorMessage}> */}
 
         <form onSubmit={handleLogin}>
           <div>
-            <input></input>
+            <input
+              type='text'
+              value={username}
+              name='Username'
+              placeholder='Username'
+              onChange={({ target }) => setUsername(target.value)}
+            />
           </div>
+          <div>
+            <input
+              type='password'
+              value={password}
+              name='Password'
+              placeholder='Password'
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </div>
+          <button>
+            Login
+          </button>
+        </form>
+
+        <form onSubmit={addNote}>
+          <input 
+            placeholder='Write your note content'
+            onChange={addNote}
+            value={newNote} 
+          />
+          <button>Crear Notas</button>
         </form>
         <button onClick={handlerShowAll}>{showAll ? 'Show only important' : 'Show all'}</button>
-        {loading ? 'Cangando...': ''}
       </div>
       <ol>
         {
@@ -77,10 +99,6 @@ function App() {
           ))
         }
       </ol>
-      <form onSubmit={handleSubmit}>
-        <input type='text' onChange={handleChange} value={newNote} />
-        <button>Crear Notas</button>
-      </form>
     </>
   );
 }
