@@ -52,44 +52,57 @@ function App() {
     setShowAll(() => !showAll)
   };
 
+  const LoginForm = () => {
+    return (
+      <form onSubmit={handleLogin}>
+        <div>
+          <input
+            type='text'
+            value={username}
+            name='Username'
+            placeholder='Username'
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          <input
+            type='password'
+            value={password}
+            name='Password'
+            placeholder='Password'
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button>
+          Login
+        </button>
+      </form>
+    )
+  }
+
+  const renderCreateNoteFrom = () => {
+    return (
+      <form onSubmit={addNote}>
+        <input
+          placeholder='Write your note content'
+          onChange={newNote}
+          value={newNote}
+        />
+        <button type='submit'>Crear Notas</button>
+      </form>
+    )
+  }
+
   return (
     <>
       <div className="App" key={22}>
         <h1>Notes by NicoDev</h1>
         {/* <Notification message={errorMessage}> */}
+        {user === null && LoginForm()}
+        {user !==null && renderCreateNoteFrom()}
 
-        <form onSubmit={handleLogin}>
-          <div>
-            <input
-              type='text'
-              value={username}
-              name='Username'
-              placeholder='Username'
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type='password'
-              value={password}
-              name='Password'
-              placeholder='Password'
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <button>
-            Login
-          </button>
-        </form>
 
-        <form onSubmit={addNote}>
-          <input 
-            placeholder='Write your note content'
-            onChange={addNote}
-            value={newNote} 
-          />
-          <button>Crear Notas</button>
-        </form>
+
         <button onClick={handlerShowAll}>{showAll ? 'Show only important' : 'Show all'}</button>
       </div>
       <ol>
