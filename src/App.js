@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import FormNotas from './components/FormNotas';
 import { Note } from './components/Note';
 import { getAllNotes } from './services/notes/getAllNotes';
-import { createNote } from './services/notes/createNote';
 import noteService from './services/notes'
 import loginService from './services/login'
 
@@ -18,14 +17,28 @@ function App() {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    console.log('useEffect')
-    getAllNotes().then((notes) => {
-      setNotes(notes)
+    noteService
+    .getAll()
+    .then(initialNotes => {
+      setNotes(initialNotes)
     });
   }, []);
 
   const addNote = (event) => {
-    setNewNote(event.target.value);
+    event.preventDefault()
+    const noteObject = {
+      content: newNote,
+      importante: Math.random() > 0.5
+    }
+
+    const { token } = user
+
+    noteService
+      .create(noteObject, { token })
+      .then(returnedNote => {
+        setNotes(notes.concat(returnedNote))
+        setNewNote('')
+      })
   }
 
   const handleLogin = async (event) => {
@@ -36,6 +49,11 @@ function App() {
         username,
         password
       })
+
+      window.localStorage.setItem(
+        'loggedNoteAppUser', JSON.stringify(user)
+      )
+      noteService.setToken(user.token)
 
       setUser(user)
       setUsername('')
@@ -52,7 +70,7 @@ function App() {
     setShowAll(() => !showAll)
   };
 
-  const LoginForm = () => {
+  const renderLoginForm = () => {
     return (
       <form onSubmit={handleLogin}>
         <div>
@@ -98,19 +116,18 @@ function App() {
       <div className="App" key={22}>
         <h1>Notes by NicoDev</h1>
         {/* <Notification message={errorMessage}> */}
-        {user === null && LoginForm()}
-        {user !==null && renderCreateNoteFrom()}
-
-
-
+        {
+          user
+          ? renderLoginForm()
+          : renderCreateNoteFrom()
+        }
         <button onClick={handlerShowAll}>{showAll ? 'Show only important' : 'Show all'}</button>
       </div>
       <ol>
-        {
-          notes.map((note) => (
-            <Note key={note.id} {...note} />
-          ))
-        }
+        {notes.map((note) => (
+          <Note key={note.id}
+          {...note} />
+        ))}
       </ol>
     </>
   );
