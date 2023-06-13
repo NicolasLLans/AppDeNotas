@@ -1,18 +1,9 @@
-import { useState } from "react"
+import Toggable from "./Toggable";
 
 export default function LoginForm(props) {
 
-  const [loginVisible, setLoginVisible] = useState(false)
-
-  const hideWhenVisible = { display: loginVisible ? 'none': ''}
-  const showWhenVisible = { display: loginVisible ? '': 'none'}
-
   return (
-    <div>
-      <div style={hideWhenVisible}>
-        <button onClick={() => setLoginVisible(true)}>Login</button>
-      </div>
-      <div style={showWhenVisible}>
+    <Toggable buttonLabel={Login}>
         <form onSubmit={props.handlerSubmit}>
           <div>
             <input
@@ -36,8 +27,6 @@ export default function LoginForm(props) {
             Login
           </button>
         </form>
-        <button onClick={()=> setLoginVisible(false)}>Cancel</button>
-      </div>
-    </div>
+    </Toggable>
   )
 }
