@@ -81,7 +81,7 @@ function App() {
     }
   }
 
-  const handlerShowAll = () => {
+  const toggleImportanceOf = () => {
     setShowAll(() => !showAll)
   };
 
@@ -137,12 +137,17 @@ function App() {
         {
           user ? renderCreateNoteForm() : renderLoginForm()
         }
-        <button onClick={handlerShowAll}>{showAll ? 'Show only important' : 'Show all'}</button>
+        <button onClick={()=> setShowAll(!showAll)}>
+          show {showAll ? 'important' : 'all'}
+        </button>
       </div>
       <ol>
-        {notes.map((note) => (
-          <Note key={note.id}
-            {...note} />
+        {notes.map((note, i) => (
+          <Note 
+            key={i}
+            note={note}
+            toggleImportance={() => toggleImportanceOf(note.id)}
+           />
         ))}
       </ol>
     </>
