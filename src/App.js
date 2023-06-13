@@ -2,7 +2,6 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import FormNotas from './components/FormNotas';
 import { Note } from './components/Note';
-import { getAllNotes } from './services/notes/getAllNotes';
 import noteService from './services/notes'
 import loginService from './services/login'
 
@@ -18,11 +17,27 @@ function App() {
 
   useEffect(() => {
     noteService
-    .getAll()
-    .then(initialNotes => {
-      setNotes(initialNotes)
-    });
+      .getAll()
+      .then(initialNotes => {
+        setNotes(initialNotes)
+      });
   }, []);
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
+    }
+  }, []);
+
+
+  const handleLogout = () => {
+    setUser(null)
+    noteService.setToken(user.token)
+    window.localStorage.removeItem('loggedNoteAppUser')
+  }
 
   const addNote = (event) => {
     event.preventDefault()
@@ -100,14 +115,17 @@ function App() {
 
   const renderCreateNoteForm = () => {
     return (
-      <form onSubmit={addNote}>
-        <input
-          placeholder='Write your note content'
-          onChange={({target}) => setNewNote(target.value)}
-          value={newNote}
-        />
-        <button type='submit'>Crear Notas</button>
-      </form>
+      <>
+        <form onSubmit={addNote}>
+          <input
+            placeholder='Write your note content'
+            onChange={({ target }) => setNewNote(target.value)}
+            value={newNote} />
+          <button type='submit'>Crear Notas</button>
+        </form><div>
+          <button onClick={handleLogout}>Cerrar sesión</button>
+        </div>
+      </>
     )
   }
 
@@ -124,7 +142,7 @@ function App() {
       <ol>
         {notes.map((note) => (
           <Note key={note.id}
-          {...note} />
+            {...note} />
         ))}
       </ol>
     </>
