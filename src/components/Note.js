@@ -1,8 +1,8 @@
-export const Note = ({ content, body }) => {
+export const Note = ({ content, importante }) => {
       return <li>
         <p>{content}</p>
         <small>
-          <time>{body}</time>
+          <time>{importante}</time>
         </small>
       </li>
     }

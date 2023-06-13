@@ -98,12 +98,12 @@ function App() {
     )
   }
 
-  const renderCreateNoteFrom = () => {
+  const renderCreateNoteForm = () => {
     return (
       <form onSubmit={addNote}>
         <input
           placeholder='Write your note content'
-          onChange={newNote}
+          onChange={({target}) => setNewNote(target.value)}
           value={newNote}
         />
         <button type='submit'>Crear Notas</button>
@@ -117,9 +117,7 @@ function App() {
         <h1>Notes by NicoDev</h1>
         {/* <Notification message={errorMessage}> */}
         {
-          user
-          ? renderLoginForm()
-          : renderCreateNoteFrom()
+          user ? renderCreateNoteForm() : renderLoginForm()
         }
         <button onClick={handlerShowAll}>{showAll ? 'Show only important' : 'Show all'}</button>
       </div>
