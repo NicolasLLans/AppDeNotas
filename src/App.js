@@ -5,11 +5,9 @@ import LoginForm from './components/LoginForm';
 import { Note } from './components/Note';
 import noteService from './services/notes'
 import loginService from './services/login'
-import Toggable from './components/Toggable';
 
 function App() {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, seterrorMessage] = useState(null)
 
@@ -89,29 +87,17 @@ function App() {
 
   
 
-  const renderCreateNoteForm = () => {
-    return (
-      <>
-        <form onSubmit={addNote}>
-          <input
-            placeholder='Write your note content'
-            onChange={({ target }) => setNewNote(target.value)}
-            value={newNote} />
-          <button type='submit'>Crear Notas</button>
-        </form><div>
-          <button onClick={handleLogout}>Cerrar sesión</button>
-        </div>
-      </>
-    )
-  }
-
   return (
     <>
       <div className="App" key={22}>
         <h1>Notes by NicoDev</h1>
         {/* <Notification message={errorMessage}> */}
         {
-          user ? renderCreateNoteForm() 
+          user 
+          ? <FormNotas
+            handleSubmit={addNote}
+            handleLogout={handleLogout}
+           /> 
           : <LoginForm
           username={username}
           password={password}

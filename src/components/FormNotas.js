@@ -1,14 +1,24 @@
 import '../styles/formNotas.css'
 
-const handleSubmit = (props) => {
-  console.log(props.target.value)
-}
+export default function FormNotas({handleSubmit,handleLogout}){
 
-const FormNotas = () => {
-  return <form onSubmit={handleSubmit} className="formNotas">
-    <label>Note</label>
-    <input type='text'></input>
-    <button>Crear nota</button>
-  </form>
+  const [newNote, setNewNote] = useState('')
+
+  const handleChange = (event) => {
+    setNewNote(event.target.value)
+  }
+
+  return(
+    <>
+        <form onSubmit={handleSubmit}>
+          <input
+            placeholder='Write your note content'
+            onChange={handleChange}
+            value={newNote} />
+          <button type='submit'>Crear Notas</button>
+        </form><div>
+          <button onClick={handleLogout}>Cerrar sesión</button>
+        </div>
+      </>
+  )
 }
-export default FormNotas

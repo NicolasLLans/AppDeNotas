@@ -3,7 +3,7 @@ import Toggable from "./Toggable";
 export default function LoginForm(props) {
 
   return (
-    <Toggable buttonLabel={Login}>
+    <Toggable buttonLabel={'Login'}>
         <form onSubmit={props.handlerSubmit}>
           <div>
             <input
