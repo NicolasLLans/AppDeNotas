@@ -39,20 +39,11 @@ function App() {
     window.localStorage.removeItem('loggedNoteAppUser')
   }
 
-  const addNote = (event) => {
-    event.preventDefault()
-    const noteObject = {
-      content: newNote,
-      importante: Math.random() > 0.5
-    }
-
-    const { token } = user
-
+  const addNote = (noteObject) => {
     noteService
-      .create(noteObject, { token })
+      .create(noteObject)
       .then(returnedNote => {
         setNotes(notes.concat(returnedNote))
-        setNewNote('')
       })
   }
 
@@ -95,7 +86,7 @@ function App() {
         {
           user 
           ? <FormNotas
-            handleSubmit={addNote}
+            addNote={addNote}
             handleLogout={handleLogout}
            /> 
           : <LoginForm
