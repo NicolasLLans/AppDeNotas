@@ -30,4 +30,8 @@ describe('<Toggable />', () => {
     const el = component.getByText('testDivContent')
     expect(el.parentNode).not.toHaveStyle('display: none')
   })
+
+  test('toggable content can be closed', () => {
+    
+  })
 })

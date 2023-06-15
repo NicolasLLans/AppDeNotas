@@ -23,7 +23,7 @@ export default function LoginForm(props) {
               onChange={props.handlerPasswordChange}
             />
           </div>
-          <button>
+          <button id="form-login-button">
             Login
           </button>
         </form>
