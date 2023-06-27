@@ -5,6 +5,8 @@ import LoginForm from './components/LoginForm';
 import { Note } from './components/Note';
 import noteService from './services/notes'
 import loginService from './services/login'
+import Notification from './components/Notification';
+
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -82,7 +84,7 @@ function App() {
     <>
       <div className="App" key={22}>
         <h1>Notes by NicoDev</h1>
-        {/* <Notification message={errorMessage}> */}
+        <Notification message={errorMessage}/>
         {
           user 
           ? <FormNotas
