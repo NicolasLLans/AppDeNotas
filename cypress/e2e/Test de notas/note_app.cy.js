@@ -48,20 +48,18 @@ describe('Note App', () => {
 
     describe('and a note exists', () => {
       beforeEach(() => {
-        cy.request({
-          method:'POST',
-          url: 'http://localhost:3001/api/notes',
-          body: { content: 'A note created from cypress', importante: false},
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('loggedNoteAppUser')).token}`
-          }
+       cy.createNote({
+        content: 'nueva nota', 
+        important:'false'
         })
-
-        cy.visit('http://localhost:3000')
       })
 
       it('it can be made important', () => {
-        cy.contains('A note created from cypress').contains('make important')
+        cy.contains('A note created from cypress').as('theNote')
+        
+        cy.get('@theNote')
+        .contains('make important')
+        .click
       })
     })
   })
